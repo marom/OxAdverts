@@ -12,16 +12,10 @@
         android:paddingBottom="5dp"/>
 
     <TextView
-        android:id="@+id/longDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/shortDescription" />
-
-    <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/longDescription"/>
+        android:layout_below="@id/shortDescription"/>
 
     <TextView
         android:id="@+id/price"
@@ -29,11 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/date"/>
 
-    <TextView
-        android:id="@+id/link"
+    <Button
+        android:id="@+id/bLaunchAdvertDetils"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:autoLink="web"
-        android:layout_below="@id/price"/>
+        android:text="@string/advert_details"
+        android:layout_below="@+id/date"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

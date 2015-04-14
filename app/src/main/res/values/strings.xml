@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">OxAdverts</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">Adverts Ox.pl</string>
+    <string name="title_activity_main">OX.PL Wynajmę</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="advert_details">Details</string>
+    <string name="title_advert_details_activity">Szczegóły ogłoszenia</string>
 </resources>

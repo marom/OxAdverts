@@ -1,10 +1,13 @@
 package com.maro.oxadverts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jsoup.helper.StringUtil;
@@ -16,11 +19,21 @@ import java.util.List;
  */
 public class AdvertAdapter extends ArrayAdapter<Advert> {
 
+    customButtonListener customListener;
+
+    public interface  customButtonListener {
+        public void onButtonClickListener(int position, Advert advert);
+    }
+
+    public void setCustomButtonListener(customButtonListener listener) {
+        this.customListener = listener;
+    }
+
     private List<Advert> adverts;
     private Context context;
 
+
     public AdvertAdapter(List<Advert> adverts, Context ctx) {
-        //super(ctx, android.R.layout.simple_list_item_1, adverts);
         super(ctx, R.layout.advert_item_list, adverts);
         this.adverts = adverts;
         this.context = ctx;
@@ -45,15 +58,17 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
+        final String link;
+
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.advert_item_list, null);
         }
 
-        Advert advert = adverts.get(position);
+        final Advert advert = adverts.get(position);
 
         TextView shortDescriptionView = (TextView) v.findViewById(R.id.shortDescription);
         shortDescriptionView.setText(advert.getShortDescription());
@@ -69,13 +84,16 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
             priceView.setText(advert.getPrice());
         }
 
+        Button launchAdvertDetailsActivityButton = (Button) v.findViewById(R.id.bLaunchAdvertDetils);
+        launchAdvertDetailsActivityButton.setOnClickListener(new View.OnClickListener() {
 
-        TextView longDescriptionView = (TextView) v.findViewById(R.id.longDescription);
-        longDescriptionView.setText(advert.getLongDescription());
-
-        TextView linkView = (TextView) v.findViewById(R.id.link);
-        linkView.setText(advert.getLink());
-
+            @Override
+            public void onClick(View v) {
+                if (customListener != null) {
+                    customListener.onButtonClickListener(position, getItem(position) );
+                }
+            }
+        });
 
         return v;
     }

@@ -6,26 +6,17 @@ package com.maro.oxadverts;
  */
 public class Advert {
 
-    private String link;
+
     private String shortDescription;
-    private String longDescription;
     private String date;
     private String price;
+    private AdvertDetails advertDetails;
 
-    public Advert(String link, String shortDescription, String longDescription, String date, String price) {
-        this.link = link;
+    public Advert(String shortDescription, String date, String price, AdvertDetails advertDetails) {
         this.shortDescription = shortDescription;
-        this.longDescription = longDescription;
         this.date = date;
         this.price = price;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
+        this.advertDetails = advertDetails;
     }
 
     public String getShortDescription() {
@@ -34,14 +25,6 @@ public class Advert {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
-    }
-
-    public String getLongDescription() {
-        return longDescription;
-    }
-
-    public void setLongDescription(String longDescription) {
-        this.longDescription = longDescription;
     }
 
     public String getDate() {
@@ -60,14 +43,21 @@ public class Advert {
         this.price = price;
     }
 
+    public AdvertDetails getAdvertDetails() {
+        return advertDetails;
+    }
+
+    public void setAdvertDetails(AdvertDetails advertDetails) {
+        this.advertDetails = advertDetails;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
-                "link='" + link + '\'' +
-                ", shortDescription='" + shortDescription + '\'' +
-                ", longDescription='" + longDescription + '\'' +
+            ", shortDescription='" + shortDescription + '\'' +
                 ", date='" + date + '\'' +
                 ", price='" + price + '\'' +
+                ", details='" + advertDetails + '\'' +
                 '}';
     }
 }

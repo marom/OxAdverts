@@ -1,12 +1,14 @@
 package com.maro.oxadverts;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,10 +17,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements AdvertAdapter.customButtonListener {
 
     private AdvertAdapter advertAdapter;
 
@@ -28,11 +31,32 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         advertAdapter  = new AdvertAdapter(new ArrayList<Advert>(), this);
+        advertAdapter.setCustomButtonListener(MainActivity.this);
         ListView lView = (ListView) findViewById(R.id.adverts_list);
 
         lView.setAdapter(advertAdapter);
         new AsyncListViewLoader().execute();
     }
+
+    @Override
+    public void onButtonClickListener(int position, Advert advert) {
+
+        Intent intent = new Intent(MainActivity.this, AdvertDetailsActivity.class);
+        intent.putExtra("dateAdded", advert.getAdvertDetails().getDateAdded());
+        intent.putExtra("advertHeader", advert.getAdvertDetails().getAdvertHeader());
+        intent.putExtra("price", advert.getAdvertDetails().getPrice());
+
+        intent.putExtra("sellerName", advert.getAdvertDetails().getSellerName());
+        intent.putExtra("sellerPhone", advert.getAdvertDetails().getSellerPhone());
+        intent.putExtra("sellerCity", advert.getAdvertDetails().getSellerCity());
+        intent.putExtra("sellerEmail", advert.getAdvertDetails().getSellerEmail());
+
+        intent.putExtra("shortContent", advert.getAdvertDetails().getShortContent());
+        intent.putExtra("fullContent", advert.getAdvertDetails().getFullContent());
+        intent.putExtra("link", advert.getAdvertDetails().getLink());
+        // Launch the Activity using the intent
+        startActivity(intent);
+     }
 
     private class AsyncListViewLoader extends AsyncTask<String, Void, List<Advert>> {
         private final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
@@ -57,6 +81,8 @@ public class MainActivity extends ActionBarActivity {
             List myAdverts = new ArrayList<Advert>();
 
             Document doc = null;
+            Document docDetails = null;
+
             try {
                 doc = Jsoup.connect("http://ogloszenia.ox.pl/34,wynajme.html").get();
             } catch (IOException e) {
@@ -65,16 +91,49 @@ public class MainActivity extends ActionBarActivity {
 
             Elements articles = doc.getElementsByClass("articles").select("div.article");
 
+            int count = 0;
 
             for (Element article : articles) {
 
-                String link = article.select("div.inner").select("h2").select("a[href^=http:]").attr("abs:href");
+                count++;
+
                 String shortDescription = article.select("div.inner").select("h2").select("a[href^=http:]").text();
-                String longDescription = article.select("div.inner").select("p.desc").text();
                 String date = article.select("div.inner").select("p.date").text();
                 String price = article.select("span.price").text();
+                String link = article.select("div.inner").select("h2").select("a[href^=http:]").attr("abs:href");
 
-                myAdverts.add(new Advert(link, shortDescription, longDescription, date, price));
+                // fill details info
+                try {
+                    docDetails = Jsoup.connect(link).timeout(10*1000).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Elements details = docDetails.getElementsByClass("notice");
+
+                String dateAdded = details.select("div.stats").text();
+                String advertHeader = details.select("h1").text();
+                String priceDetails = details.select("div.price").text();
+
+                Element table = details.select("table").first();
+
+                Iterator<Element> ite = table.select("td").iterator();
+                ite.next();
+                String sellerName = ite.next().text();
+                ite.next();
+                String sellerPhone = ite.next().text();
+                ite.next();
+                String sellerCity = ite.next().text();
+                ite.next();
+                String sellerEmail = ite.next().text();
+                String shortContent = details.select("div.shortContent").text();
+                String fullContent = details.select("div.fullContent").text();
+
+                AdvertDetails advertDetails = new AdvertDetails(dateAdded, advertHeader, price, sellerName, sellerPhone, sellerCity, sellerEmail, shortContent, fullContent, link);
+
+                if(count == 20) break;
+
+                myAdverts.add(new Advert(shortDescription, date, price, advertDetails));
 
             }
             return myAdverts;
