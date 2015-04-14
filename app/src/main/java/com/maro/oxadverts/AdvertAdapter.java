@@ -1,11 +1,9 @@
 package com.maro.oxadverts;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +30,12 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     private List<Advert> adverts;
     private Context context;
 
+    static class ViewHolder {
+        public TextView shortDescription;
+        public TextView date;
+        public TextView price;
+        public Button bLaunchAdvertDetils;
+    }
 
     public AdvertAdapter(List<Advert> adverts, Context ctx) {
         super(ctx, R.layout.advert_item_list, adverts);
@@ -60,32 +64,36 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
+        View rowView = convertView;
         final String link;
 
-        if (v == null) {
+        if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.advert_item_list, null);
+            rowView = inflater.inflate(R.layout.advert_item_list, null);
+
+            // configure view holder
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.shortDescription = (TextView) rowView.findViewById(R.id.shortDescription);
+            viewHolder.date = (TextView) rowView.findViewById(R.id.date);
+            viewHolder.price = (TextView) rowView.findViewById(R.id.price);
+            viewHolder.bLaunchAdvertDetils = (Button) rowView.findViewById(R.id.bLaunchAdvertDetils);
+            rowView.setTag(viewHolder);
         }
 
+        // fill data
+        ViewHolder holder = (ViewHolder) rowView.getTag();
         final Advert advert = adverts.get(position);
 
-        TextView shortDescriptionView = (TextView) v.findViewById(R.id.shortDescription);
-        shortDescriptionView.setText(advert.getShortDescription());
-
-        TextView dateView = (TextView) v.findViewById(R.id.date);
-        dateView.setText(advert.getDate());
-
-        TextView priceView = (TextView) v.findViewById(R.id.price);
+        holder.shortDescription.setText(advert.getShortDescription());
+        holder.date.setText(advert.getDate());
 
         if (StringUtil.isBlank(advert.getPrice())) {
-            priceView.setVisibility(View.GONE);
+            holder.price.setVisibility(View.GONE);
         } else {
-            priceView.setText(advert.getPrice());
+            holder.price.setText(advert.getPrice());
         }
 
-        Button launchAdvertDetailsActivityButton = (Button) v.findViewById(R.id.bLaunchAdvertDetils);
-        launchAdvertDetailsActivityButton.setOnClickListener(new View.OnClickListener() {
+        holder.bLaunchAdvertDetils.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -94,8 +102,7 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
                 }
             }
         });
-
-        return v;
+        return rowView;
     }
 
     public List<Advert> getAdverts() {
