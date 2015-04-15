@@ -24,10 +24,18 @@
         android:layout_below="@id/date"/>
 
     <Button
-        android:id="@+id/bLaunchAdvertDetils"
+        android:id="@+id/bLaunchAdvertDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/advert_details"
         android:layout_below="@+id/date"
         android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Your image will appear here"
+        android:layout_below="@id/price">
+    </ImageView>
 </RelativeLayout>

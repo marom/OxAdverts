@@ -53,6 +53,9 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
         intent.putExtra("shortContent", advert.getAdvertDetails().getShortContent());
         intent.putExtra("fullContent", advert.getAdvertDetails().getFullContent());
         intent.putExtra("link", advert.getAdvertDetails().getLink());
+        intent.putExtra("urlImage1", advert.getAdvertDetails().getImageUrl1());
+        intent.putExtra("urlImage2", advert.getAdvertDetails().getImageUrl2());
+        intent.putExtra("urlImage3", advert.getAdvertDetails().getImageUrl3());
         // Launch the Activity using the intent
         startActivity(intent);
      }
@@ -114,6 +117,9 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
                 String advertHeader = details.select("h1").text();
                 String priceDetails = details.select("div.price").text();
 
+                Element image = article.select("img").first();
+                String imageUrl = image.absUrl("src");
+
                 Element table = details.select("table").first();
 
                 Iterator<Element> ite = table.select("td").iterator();
@@ -128,16 +134,38 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
                 String shortContent = details.select("div.shortContent").text();
                 String fullContent = details.select("div.fullContent").text();
 
-                AdvertDetails advertDetails = new AdvertDetails(dateAdded, advertHeader, price, sellerName, sellerPhone, sellerCity, sellerEmail, shortContent, fullContent, link);
+                Element gallery = details.select("div.gallery").first();
+                String picUrl1 = null;
+                String picUrl2 = null;
+                String picUrl3 = null;
+
+                if (gallery != null) {
+                    Iterator<Element> galleryIte = gallery.select("a.thumb ").iterator();
+                    if (galleryIte.hasNext()) {
+                        picUrl1 = galleryIte.next().absUrl("href");
+                    }
+                    if (galleryIte.hasNext()) {
+                        picUrl2 = galleryIte.next().absUrl("href");
+                    }
+                    if (galleryIte.hasNext()) {
+                        picUrl3 = galleryIte.next().absUrl("href");
+                    }
+                }
+
+
+                AdvertDetails advertDetails = new AdvertDetails(dateAdded, advertHeader, price, sellerName, sellerPhone, sellerCity, sellerEmail, shortContent, fullContent, link, picUrl1, picUrl2, picUrl3);
 
                 if(count == 20) break;
 
-                myAdverts.add(new Advert(shortDescription, date, price, advertDetails));
+                myAdverts.add(new Advert(shortDescription, date, price, advertDetails, imageUrl));
 
             }
             return myAdverts;
         }
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

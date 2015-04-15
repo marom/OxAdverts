@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jsoup.helper.StringUtil;
@@ -34,7 +35,8 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
         public TextView shortDescription;
         public TextView date;
         public TextView price;
-        public Button bLaunchAdvertDetils;
+        public Button bLaunchAdvertDetails;
+        public ImageView imageView;
     }
 
     public AdvertAdapter(List<Advert> adverts, Context ctx) {
@@ -65,7 +67,6 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         View rowView = convertView;
-        final String link;
 
         if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -76,7 +77,8 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
             viewHolder.shortDescription = (TextView) rowView.findViewById(R.id.shortDescription);
             viewHolder.date = (TextView) rowView.findViewById(R.id.date);
             viewHolder.price = (TextView) rowView.findViewById(R.id.price);
-            viewHolder.bLaunchAdvertDetils = (Button) rowView.findViewById(R.id.bLaunchAdvertDetils);
+            viewHolder.bLaunchAdvertDetails = (Button) rowView.findViewById(R.id.bLaunchAdvertDetails);
+            viewHolder.imageView = (ImageView) rowView.findViewById(R.id.imageView);
             rowView.setTag(viewHolder);
         }
 
@@ -93,7 +95,7 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
             holder.price.setText(advert.getPrice());
         }
 
-        holder.bLaunchAdvertDetils.setOnClickListener(new View.OnClickListener() {
+        holder.bLaunchAdvertDetails.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -102,6 +104,10 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
                 }
             }
         });
+
+        if (holder.imageView != null) {
+            new ImageDownloaderTask(holder.imageView).execute(advert.getImageUrl());
+        }
         return rowView;
     }
 
@@ -112,5 +118,6 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     public void setAdverts(List<Advert> adverts) {
         this.adverts = adverts;
     }
+
 
 }

@@ -18,7 +18,12 @@ public class AdvertDetails {
     private String fullContent;
     private String link;
 
-    public AdvertDetails(String dateAdded, String advertHeader, String price, String sellerName, String sellerPhone, String sellerCity, String sellerEmail, String shortContent, String fullContent, String link) {
+    private String imageUrl1;
+    private String imageUrl2;
+    private String imageUrl3;
+
+
+    public AdvertDetails(String dateAdded, String advertHeader, String price, String sellerName, String sellerPhone, String sellerCity, String sellerEmail, String shortContent, String fullContent, String link, String imageUrl1, String imageUrl2, String imageUrl3) {
         this.dateAdded = dateAdded;
         this.advertHeader = advertHeader;
         this.price = price;
@@ -29,6 +34,9 @@ public class AdvertDetails {
         this.shortContent = shortContent;
         this.fullContent = fullContent;
         this.link = link;
+        this.imageUrl1 = imageUrl1;
+        this.imageUrl2 = imageUrl2;
+        this.imageUrl3 = imageUrl3;
     }
 
     public String getDateAdded() {
@@ -111,6 +119,32 @@ public class AdvertDetails {
         this.link = link;
     }
 
+    public String getImageUrl1() {
+        return imageUrl1;
+    }
+
+    public void setImageUrl1(String imageUrl1) {
+        this.imageUrl1 = imageUrl1;
+    }
+
+    public String getImageUrl2() {
+        return imageUrl2;
+    }
+
+    public void setImageUrl2(String imageUrl2) {
+        this.imageUrl2 = imageUrl2;
+    }
+
+    public String getImageUrl3() {
+        return imageUrl3;
+    }
+
+    public void setImageUrl3(String imageUrl3) {
+        this.imageUrl3 = imageUrl3;
+    }
+
+
+
     @Override
     public String toString() {
         return "AdvertDetails{" +
@@ -124,6 +158,9 @@ public class AdvertDetails {
                 ", shortContent='" + shortContent + '\'' +
                 ", fullContent='" + fullContent + '\'' +
                 ", link='" + link + '\'' +
-                '}';
+                ", imageUrl1='" + imageUrl1 + '\'' +
+                ", imageUrl2='" + imageUrl2 + '\'' +
+                ", imageUrl3='" + imageUrl3 + '\'' +
+               '}';
     }
 }

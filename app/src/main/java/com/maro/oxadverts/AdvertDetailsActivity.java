@@ -3,7 +3,7 @@ package com.maro.oxadverts;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -30,6 +30,9 @@ public class AdvertDetailsActivity extends Activity {
         TextView shortContent = (TextView) findViewById(R.id.shortContent);
         TextView fullContent = (TextView) findViewById(R.id.fullContent);
         TextView link = (TextView) findViewById(R.id.link);
+        ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
 
         Intent intent = getIntent();
         // getting attached intent data
@@ -43,5 +46,15 @@ public class AdvertDetailsActivity extends Activity {
         shortContent.setText(intent.getStringExtra("shortContent"));
         fullContent.setText(intent.getStringExtra("fullContent"));
         link.setText(intent.getStringExtra("link"));
+
+        if (imageView1 != null) {
+            new ImageDownloaderTask(imageView1).execute(intent.getStringExtra("urlImage1"));
+        }
+        if (imageView2 != null) {
+            new ImageDownloaderTask(imageView2).execute(intent.getStringExtra("urlImage2"));
+        }
+        if (imageView3 != null) {
+            new ImageDownloaderTask(imageView3).execute(intent.getStringExtra("urlImage3"));
+        }
     }
 }

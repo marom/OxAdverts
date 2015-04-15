@@ -11,12 +11,14 @@ public class Advert {
     private String date;
     private String price;
     private AdvertDetails advertDetails;
+    private String imageUrl;
 
-    public Advert(String shortDescription, String date, String price, AdvertDetails advertDetails) {
+    public Advert(String shortDescription, String date, String price, AdvertDetails advertDetails, String imageUrl) {
         this.shortDescription = shortDescription;
         this.date = date;
         this.price = price;
         this.advertDetails = advertDetails;
+        this.imageUrl = imageUrl;
     }
 
     public String getShortDescription() {
@@ -51,13 +53,22 @@ public class Advert {
         this.advertDetails = advertDetails;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
-        return "Article{" +
-            ", shortDescription='" + shortDescription + '\'' +
+        return "Advert{" +
+                "shortDescription='" + shortDescription + '\'' +
                 ", date='" + date + '\'' +
                 ", price='" + price + '\'' +
-                ", details='" + advertDetails + '\'' +
+                ", advertDetails=" + advertDetails +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }
