@@ -21,7 +21,7 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
     customButtonListener customListener;
 
     public interface  customButtonListener {
-        public void onButtonClickListener(int position, Advert advert);
+        public void onButtonClickListener(Advert advert);
     }
 
     public void setCustomButtonListener(customButtonListener listener) {
@@ -100,7 +100,8 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
             @Override
             public void onClick(View v) {
                 if (customListener != null) {
-                    customListener.onButtonClickListener(position, getItem(position) );
+                    customListener.onButtonClickListener(getItem(position));
+                    customListener.onButtonClickListener(getItem(position));
                 }
             }
         });

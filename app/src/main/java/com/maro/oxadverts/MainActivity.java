@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
     }
 
     @Override
-    public void onButtonClickListener(int position, Advert advert) {
+    public void onButtonClickListener(Advert advert) {
 
         Intent intent = new Intent(MainActivity.this, AdvertDetailsActivity.class);
         intent.putExtra("dateAdded", advert.getAdvertDetails().getDateAdded());
