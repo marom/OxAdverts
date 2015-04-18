@@ -41,21 +41,7 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
     public void onButtonClickListener(Advert advert) {
 
         Intent intent = new Intent(MainActivity.this, AdvertDetailsActivity.class);
-        intent.putExtra("dateAdded", advert.getAdvertDetails().getDateAdded());
-        intent.putExtra("advertHeader", advert.getAdvertDetails().getAdvertHeader());
-        intent.putExtra("price", advert.getAdvertDetails().getPrice());
-
-        intent.putExtra("sellerName", advert.getAdvertDetails().getSellerName());
-        intent.putExtra("sellerPhone", advert.getAdvertDetails().getSellerPhone());
-        intent.putExtra("sellerCity", advert.getAdvertDetails().getSellerCity());
-        intent.putExtra("sellerEmail", advert.getAdvertDetails().getSellerEmail());
-
-        intent.putExtra("shortContent", advert.getAdvertDetails().getShortContent());
-        intent.putExtra("fullContent", advert.getAdvertDetails().getFullContent());
-        intent.putExtra("link", advert.getAdvertDetails().getLink());
-        intent.putExtra("urlImage1", advert.getAdvertDetails().getImageUrl1());
-        intent.putExtra("urlImage2", advert.getAdvertDetails().getImageUrl2());
-        intent.putExtra("urlImage3", advert.getAdvertDetails().getImageUrl3());
+        intent.putExtra("Advert", advert);
         // Launch the Activity using the intent
         startActivity(intent);
      }
@@ -98,72 +84,20 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
                     .select("div.articles")
                     .select("div.article");
 
-            int count = 0;
-
-            for (Element article : articles) {
-
-                count++;
-
+           for (Element article : articles) {
                 String shortDescription = article.select("div.inner").select("h2").select("a[href^=http:]").text();
                 String date = article.select("div.inner").select("p.date").text();
                 String price = article.select("span.price").text();
                 String link = article.select("div.inner").select("h2").select("a[href^=http:]").attr("abs:href");
 
-                // fill details info
-                try {
-                    docDetails = Jsoup.connect(link).timeout(10*1000).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Elements details = docDetails.getElementsByClass("notice");
-
-                String dateAdded = details.select("div.stats").text();
-                String advertHeader = details.select("h1").text();
-                String priceDetails = details.select("div.price").text();
-
                 Element image = article.select("img").first();
                 String imageUrl = image.absUrl("src");
 
-                Element table = details.select("table").first();
-
-                Iterator<Element> ite = table.select("td").iterator();
-                ite.next();
-                String sellerName = ite.next().text();
-                ite.next();
-                String sellerPhone = ite.next().text();
-                ite.next();
-                String sellerCity = ite.next().text();
-                ite.next();
-                String sellerEmail = ite.next().text();
-                String shortContent = details.select("div.shortContent").text();
-                String fullContent = details.select("div.fullContent").text();
-
-                Element gallery = details.select("div.gallery").first();
-                String picUrl1 = null;
-                String picUrl2 = null;
-                String picUrl3 = null;
-
-                if (gallery != null) {
-                    Iterator<Element> galleryIte = gallery.select("a.thumb ").iterator();
-                    if (galleryIte.hasNext()) {
-                        picUrl1 = galleryIte.next().absUrl("href");
-                    }
-                    if (galleryIte.hasNext()) {
-                        picUrl2 = galleryIte.next().absUrl("href");
-                    }
-                    if (galleryIte.hasNext()) {
-                        picUrl3 = galleryIte.next().absUrl("href");
-                    }
-                }
-
-
-                AdvertDetails advertDetails = new AdvertDetails(dateAdded, advertHeader, price, sellerName, sellerPhone, sellerCity, sellerEmail, shortContent, fullContent, link, picUrl1, picUrl2, picUrl3);
-
-                if(count == 20) break;
+                AdvertDetails advertDetails = new AdvertDetails();
+                advertDetails.setLink(link);
+                advertDetails.setPrice(price);
 
                 myAdverts.add(new Advert(shortDescription, date, price, advertDetails, imageUrl));
-
             }
             return myAdverts;
         }

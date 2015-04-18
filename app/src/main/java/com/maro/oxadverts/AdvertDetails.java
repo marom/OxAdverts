@@ -1,9 +1,11 @@
 package com.maro.oxadverts;
 
+import java.io.Serializable;
+
 /**
  * Created by maro on 12/04/2015.
  */
-public class AdvertDetails {
+public class AdvertDetails implements Serializable{
 
     private String dateAdded;
     private String advertHeader;
@@ -22,21 +24,7 @@ public class AdvertDetails {
     private String imageUrl2;
     private String imageUrl3;
 
-
-    public AdvertDetails(String dateAdded, String advertHeader, String price, String sellerName, String sellerPhone, String sellerCity, String sellerEmail, String shortContent, String fullContent, String link, String imageUrl1, String imageUrl2, String imageUrl3) {
-        this.dateAdded = dateAdded;
-        this.advertHeader = advertHeader;
-        this.price = price;
-        this.sellerName = sellerName;
-        this.sellerPhone = sellerPhone;
-        this.sellerCity = sellerCity;
-        this.sellerEmail = sellerEmail;
-        this.shortContent = shortContent;
-        this.fullContent = fullContent;
-        this.link = link;
-        this.imageUrl1 = imageUrl1;
-        this.imageUrl2 = imageUrl2;
-        this.imageUrl3 = imageUrl3;
+    public AdvertDetails() {
     }
 
     public String getDateAdded() {

@@ -1,10 +1,12 @@
 package com.maro.oxadverts;
 
+import java.io.Serializable;
+
 /**
  * Created by maro on 21/03/2015.
  * Class to keep an info about single advert.
  */
-public class Advert {
+public class Advert implements Serializable{
 
 
     private String shortDescription;
@@ -12,6 +14,7 @@ public class Advert {
     private String price;
     private AdvertDetails advertDetails;
     private String imageUrl;
+
 
     public Advert(String shortDescription, String date, String price, AdvertDetails advertDetails, String imageUrl) {
         this.shortDescription = shortDescription;

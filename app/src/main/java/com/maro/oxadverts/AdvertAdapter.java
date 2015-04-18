@@ -101,7 +101,6 @@ public class AdvertAdapter extends ArrayAdapter<Advert> {
             public void onClick(View v) {
                 if (customListener != null) {
                     customListener.onButtonClickListener(getItem(position));
-                    customListener.onButtonClickListener(getItem(position));
                 }
             }
         });
