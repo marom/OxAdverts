@@ -91,7 +91,12 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
                 e.printStackTrace();
             }
 
-            Elements articles = doc.getElementsByClass("articles").select("div.article");
+            Elements articles = doc.getElementsByClass("page")
+                    .select("div.content")
+                    .select("div.middle_bar")
+                    .select("div.fix")
+                    .select("div.articles")
+                    .select("div.article");
 
             int count = 0;
 
