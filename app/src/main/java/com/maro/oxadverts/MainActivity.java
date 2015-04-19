@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
             Document docDetails = null;
 
             try {
-                doc = Jsoup.connect("http://ogloszenia.ox.pl/34,wynajme.html").get();
+                doc = Jsoup.connect("http://ogloszenia.ox.pl/34,wynajme.html").timeout(10*1000).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }
