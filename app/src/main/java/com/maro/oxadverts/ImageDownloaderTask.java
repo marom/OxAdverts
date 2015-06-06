@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import org.jsoup.helper.StringUtil;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
@@ -17,14 +19,16 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewReference;
 
         public ImageDownloaderTask(ImageView imageView) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
+            imageViewReference = new WeakReference<>(imageView);
         }
 
         @Override
         // Actual download method, run in the task thread
         protected Bitmap doInBackground(String... params) {
             // params comes from the execute() call: params[0] is the url.
-            return downloadImage(params[0]);
+            if (!StringUtil.isBlank(params[0])) {
+                return downloadImage(params[0]);
+            } else return null;
         }
 
         @Override
@@ -34,18 +38,17 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
                 bitmap = null;
             }
 
-            if (imageViewReference != null) {
-                ImageView imageView = imageViewReference.get();
-                if (imageView != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-
+            ImageView imageView = imageViewReference.get();
+            if (imageView != null) {
+                imageView.setImageBitmap(bitmap);
             }
+
+
         }
 
         static Bitmap downloadImage(String url) {
-
-            URL imageURL = null;
+            System.out.println("====$$$=== " + url);
+            URL imageURL;
             try {
                 imageURL = new URL(url);
                 return BitmapFactory.decodeStream(imageURL.openStream());
