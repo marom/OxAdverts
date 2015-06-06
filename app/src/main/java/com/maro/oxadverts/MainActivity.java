@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,6 +24,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements AdvertAdapter.customButtonListener {
 
     private AdvertAdapter advertAdapter;
+    private String linkParam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,14 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
         ListView lView = (ListView) findViewById(R.id.adverts_list);
 
         lView.setAdapter(advertAdapter);
-        new AsyncListViewLoader().execute();
+
+        Intent intent = getIntent();
+        linkParam = intent.getStringExtra("link");
+        if (linkParam == null) {
+            linkParam = "http://ogloszenia.ox.pl/34,wynajme.html";
+        }
+
+        new AsyncListViewLoader().execute(linkParam);
     }
 
     @Override
@@ -70,9 +79,10 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
 
             Document doc = null;
             Document docDetails = null;
+            linkParam = params[0];
 
             try {
-                doc = Jsoup.connect("http://ogloszenia.ox.pl/34,wynajme.html").timeout(10*1000).get();
+                doc = Jsoup.connect(linkParam).timeout(10*1000).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,13 +128,58 @@ public class MainActivity extends ActionBarActivity implements AdvertAdapter.cus
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId())
+        {
+            case R.id.sale_all:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/1,sprzedam.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_properties:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/2,nieruchomosci.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_properties_houses_flats:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/3,domy-i-mieszkania.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_properties_plots:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/4,dzialki.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_properties_other:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/5,inne.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_properties_rent:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/34,wynajme.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_autos_all:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/6,motoryzacja.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_autos:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/7,samochody.html");
+                startActivity(intent);
+                return true;
+
+            case R.id.sale_autos_other:
+                intent.putExtra("link", "http://ogloszenia.ox.pl/8,inne.html");
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

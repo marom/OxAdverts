@@ -47,7 +47,6 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
         }
 
         static Bitmap downloadImage(String url) {
-            System.out.println("====$$$=== " + url);
             URL imageURL;
             try {
                 imageURL = new URL(url);

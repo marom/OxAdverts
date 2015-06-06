@@ -1,6 +1,39 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context="com.maro.oxadverts.MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/sale_all"
+        android:title="@string/sale_all"
+        />
+
+    <item android:id="@+id/sale_properties"
+        android:title="@string/sale_properties"
+        />
+
+    <item android:id="@+id/sale_properties_houses_flats"
+        android:title="@string/sale_properties_houses_flats"
+        />
+
+    <item android:id="@+id/sale_properties_plots"
+        android:title="@string/sale_properties_plots"
+        />
+
+    <item android:id="@+id/sale_properties_other"
+        android:title="@string/sale_properties_other"
+        />
+
+    <item android:id="@+id/sale_properties_rent"
+        android:title="@string/sale_properties_rent"
+        />
+
+    <item android:id="@+id/sale_autos_all"
+        android:title="@string/sale_autos_all"
+        />
+
+    <item android:id="@+id/sale_autos"
+        android:title="@string/sale_autos"
+        />
+
+    <item android:id="@+id/sale_autos_other"
+        android:title="@string/sale_autos_other"
+        />
 </menu>
